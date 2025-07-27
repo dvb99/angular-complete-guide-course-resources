@@ -43,6 +43,8 @@ export class PlacesService {
     return this.httpClient
       .put('http://localhost:3000/user-places', {
         placeId: place.id,
+      }, {
+        withCredentials : true
       })
       .pipe(
         catchError((error) => {
@@ -61,7 +63,9 @@ export class PlacesService {
     }
 
     return this.httpClient
-      .delete('http://localhost:3000/user-places/' + place.id)
+      .delete('http://localhost:3000/user-places/' + place.id, {
+        withCredentials : true
+      })
       .pipe(
         catchError((error) => {
           this.userPlaces.set(prevPlaces);
@@ -74,7 +78,9 @@ export class PlacesService {
   }
 
   private fetchPlaces(url: string, errorMessage: string) {
-    return this.httpClient.get<{ places: Place[] }>(url).pipe(
+    return this.httpClient.get<{ places: Place[] }>(url, {
+      withCredentials : true
+    }).pipe(
       map((resData) => resData.places),
       catchError((error) => {
         console.log(error);
